@@ -1,27 +1,40 @@
-let display = document.getElementById('display');
+const balanceElement = document.querySelector("#balance #amount");
+const transactionInput = document.querySelector("#transactionInput");
+const addButton = document.querySelector("#addButton");
+const subtractButton = document.querySelector("#subtractButton");
+const transactionsList = document.querySelector("#transactions");
 
-let buttons = Array.from(document.getElementsByClassName('button'));
+let balance = localStorage.getItem("balance") || 0;
+balance = parseFloat(balance);
 
-buttons.map(button => {
-    button.addEventListener('click', (e) => {
-        switch(e.target.innerText){
-            case 'C':
-                display.innerText = '';
-                break;
-            case '←':
-                if(display.innerText){
-                    display.innerText = display.innerText.slice(0, -1);
-                }
-                break;
-            case '=':
-                try{
-                    display.innerText = eval(display.innerText);
-                } catch {
-                    display.innerText = 'Error!';
-                }
-                break;
-            default:
-                display.innerText += e.target.innerText;
-        }
-    });
+updateBalance();
+
+addButton.addEventListener("click", function () {
+    const transactionAmount = parseFloat(transactionInput.value);
+    if (!isNaN(transactionAmount)) {
+        balance += transactionAmount;
+        localStorage.setItem("balance", balance);
+        updateBalance();
+        addTransaction(transactionAmount, "add");
+    }
 });
+
+subtractButton.addEventListener("click", function () {
+    const transactionAmount = parseFloat(transactionInput.value);
+    if (!isNaN(transactionAmount)) {
+        balance -= transactionAmount;
+        localStorage.setItem("balance", balance);
+        updateBalance();
+        addTransaction(transactionAmount, "subtract");
+    }
+});
+
+function updateBalance() {
+    balanceElement.innerHTML = balance.toFixed(2) + " €";
+}
+
+function addTransaction(amount, type) {
+    const transactionElement = document.createElement("li");
+    transactionElement.innerHTML = type === "add" ? "+" + amount.toFixed(2) + " €" : "-" + amount.toFixed(2) + " €";
+    transactionsList.appendChild(transactionElement);
+}
