@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Counter</title>
+    <style>
+      body {
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #303030;
+        border-radius: 20px;
+        height: 70vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      button {
+        background-color: #0077cc;
+        color: #fff;
+        font-size: 24px;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        margin: 20px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #005fa32a;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(180, 50, 50);
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        margin: 20px;
+        text-align: center;
+        line-height: 100px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 20px;
+        color: #fff;
+        cursor: pointer;
+      }
+      .box:hover {
+        background-color: #a700002a;
+      }
+      #decrease-ten {
+        animation: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="decrease-ten">-10</button>
+    <button id="decrease">-</button>
+    <span id="count" class="box">0</span>
+    <button id="increase">+</button>
+    <button id="increase-ten">+10</button>
+    <script>
+      var countElement = document.getElementById('count');
+      var count = localStorage.getItem('count') || 0; // load from localStorage or default to 0
+      countElement.innerHTML = count;
+      
+      var decreaseButton = document.getElementById('decrease');
+      var increaseButton = document.getElementById('increase');
+      var decreaseTenButton = document.getElementById('decrease-ten');
+      var increaseTenButton = document.getElementById('increase-ten');
+      var box = document.querySelector('.box');
+      
+      decreaseButton.addEventListener('click', function() {
+        count--;
+        countElement.innerHTML = count;
+        localStorage.setItem('count', count);
+      });
+      increaseButton.addEventListener('click', function() {
+        count++;
+        countElement.innerHTML = count;
+        localStorage.setItem('count', count);
+      });
+      decreaseTenButton.addEventListener('click', function() {
+        count -= 10;
+        countElement.innerHTML = count;
+        localStorage.setItem('count', count);
+      });
+      increaseTenButton.addEventListener('click', function() {
+        count += 10;
+        countElement.innerHTML = count;
+        localStorage.setItem('count', count);
+      });
+      
+      box.addEventListener('click', function() {
+        count = 0;
+        countElement.innerHTML = count;
+        localStorage.setItem('count', count);
+      });
+    </script>
+  </body>
+</html>
